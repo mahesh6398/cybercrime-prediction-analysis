@@ -1,8 +1,12 @@
 from flask import Flask, render_template, make_response, jsonify, request
 import pandas
+# import plotly.graph_objs as go
+import plotly.express as px
 from joblib import dump, load
+
 app = Flask(__name__)
 
+dff = pandas.read_csv('analysis.csv')
 df = pandas.read_csv('dataset.csv')
 cyber_data = pandas.read_csv('cyber.csv')
 
@@ -38,6 +42,65 @@ def index():
 def about():
     return render_template('about.html')
 
+@app.route('/contact')
+def contact():
+    return render_template('contact.html')
+
+@app.route('/form')
+def form():
+    return render_template('form.html')
+
+@app.route('/graph', methods=['POST'])
+def graph():
+    # get the selected year and type of cybercrime from the form
+    
+    year = int(request.form['year'])
+    cybercrime = request.form['cybercrime']
+    state = request.form['state']
+    plot_type = request.form['plot-type']
+
+    error = []
+    if plot_type == 'crime-types':
+        if not year or not cybercrime:
+            error.append ('Please select year and cybercrime type.')
+            return render_template('graph.html', error=error[0])
+        else:
+            df_year = dff[dff['Year'] == year]
+            cyber_crime= df_year.groupby('State')[cybercrime].sum().reset_index()
+            fig = px.bar(cyber_crime, x='State', y=cybercrime, title=f"{cybercrime} Cases in {year}")
+            div = fig.to_html(full_html=False)
+            return render_template('graph.html', plot_div=div)
+    elif plot_type == 'state-count':
+        if not year or not state:
+            error.append('Please select year and state.')
+            return render_template('graph.html', error=error[0])
+        else:
+            data_2017_MH = dff[(dff['Year'] == year) & (dff['State'] == state)]
+            df_grouped = data_2017_MH.groupby('State')[['Identity theft', 'Forgery (Sec.465,468 & 471)', 'Cyber Stalking','ATM','personation by using computer']].sum().reset_index()
+            df_melted = df_grouped.melt(id_vars=['State'], value_vars=['Identity theft','Forgery (Sec.465,468 & 471)', 'Cyber Stalking','ATM','personation by using computer'], var_name='Crime Type', value_name='Count')
+            fig = px.bar(df_melted, x='State', y='Count', color='Crime Type', barmode='group', title=f'cybercrimes and count in {year} for {state}')
+            div = fig.to_html(full_html=False)
+            return render_template('graph.html', plot_div=div)
+    else:
+        pass
+
+
+    # if(plot_type=="state-count"):
+    #     data_2017_MH = df[(df['Year'] == year) & (df['State'] == state)]
+    #     df_grouped = data_2017_MH.groupby('State')[['Identity theft', 'Forgery (Sec.465,468 & 471)', 'Cyber Stalking','ATM','personation by using computer']].sum().reset_index()
+    #     df_melted = df_grouped.melt(id_vars=['State'], value_vars=['Identity theft','Forgery (Sec.465,468 & 471)', 'Cyber Stalking','ATM','personation by using computer'], var_name='Crime Type', value_name='Count')
+    #     fig = px.bar(df_melted, x='State', y='Count', color='Crime Type', barmode='group', title=f'cybercrimes and count in {year} for {state}')
+    #     div = fig.to_html(full_html=False)
+    #     return render_template('graph.html', plot_div=div)
+    
+    # elif (plot_type=="crime-types"):
+    #     df_year = df[df['Year'] == year]
+    #     cyber_crime= df_year.groupby('State')[cybercrime].sum().reset_index()
+    #     fig = px.bar(cyber_crime, x='State', y=cybercrime, title=f"{cybercrime} Cases in {year}")
+    #     div = fig.to_html(full_html=False)
+    #     return render_template('graph.html', plot_div=div)
+    # else:
+    #     pass
 
 def find_max_key(value: int, all_years_predictions: dict) -> str:
     for key, val in all_years_predictions.items():
