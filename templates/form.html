@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+    <link rel="stylesheet" href="static/form.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <link rel="stylesheet" href="static/main.css" />
@@ -14,38 +14,7 @@
     ></script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <style>
-      select {
-        padding: 10px;
-      }
-      select,
-      input {
-        margin: 10px 0;
-      }
-      form{
-        margin-left: 33%;
-    border: 1px solid black;
-    width: fit-content;
-    padding: 10px;
-    margin-top: 10%;
-    background-color: lavender;
-    border-radius: 10px;
-    box-shadow: grey 5px 5px 8px;
-      }
-      #submit{
-        background-color: rgb(106, 108, 240);
-        width: 100px;
-        font-weight: 600;
-        color: ghostwhite;
-      }
-      form input{
-        height: 30px;
-    width: 220px;
-    font-size: 16px;
-    margin-left: 25px;
-    border-radius: 5px;
-    border-style: none;
-      }
-      
+
     </style>
     <title>Cyber Crime Analysis using Machine Learning</title>
   </head>
@@ -62,11 +31,11 @@
         </nav>
       </header>
 
-  
+  <div class="container">
    <!-- form fields go here -->
    <form action="/graph" method="post">
 
-    <label for="plot-type">Select plot type:</label>
+    <label for="plot-type">Select plot type:</label><br>
 		<select name="plot-type" id="plot-type">
       <option value="">Select type</option>
 			<option value="crime-types">All state vs Count of cybercrime</option>
@@ -75,12 +44,12 @@
     <br>
 
     <div id="year-input">   
-    <label for="year">Year:</label>
+    <label for="year">Year:</label><br>
     <input type="number" id="year" name="year" value="2017" min="2016" max="2020"><br>
       </div>
 
       <div id="cybercrime-input">
-    <label for="cybercrime">Type of Cybercrime:</label>
+    <label for="cybercrime">Type of Cybercrime:</label><br>
     <select id="cybercrime" name="cybercrime">
       <option value="">Select Crime type</option>
       <option value="Cyber Stalking">Cyber Stalking</option>
@@ -93,7 +62,7 @@
   </div>
 
   <div id="state-input">
-    <label for="state">State:</label>
+    <label for="state">State:</label><br>
     <select name="state" id="state">
       <option value="">Select State</option>
       <option value="Andhra Pradesh">Andhra Pradesh</option>
@@ -121,7 +90,10 @@
 </div>
     <input type="submit" value="Submit" id="submit">
   </form>
- 
+  <div class="side-img">
+    <img class="about-us-image" src="static/images/cyber4.jpg" alt="About Us">
+  </div>
+</div>
 </div>
 
 <script>
