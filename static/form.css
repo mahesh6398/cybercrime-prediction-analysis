@@ -48,8 +48,10 @@ margin-left: 31%;
 height: 400px;
   }
   .side-img img{
-    width: 265px;
+    width: 290px;
 height: 400px;
 border-radius: 10px;
-margin-top: 1px;
+margin-top: 0;
+border-top-left-radius: 0%;
+border-bottom-left-radius: 0%;
   }

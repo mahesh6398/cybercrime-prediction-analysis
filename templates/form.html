@@ -40,6 +40,8 @@
       <option value="">Select type</option>
 			<option value="crime-types">All state vs Count of cybercrime</option>
 			<option value="state-count">State vs Count of cybercrimes</option>
+      <option value="line-graph">Trend of Cybercrimes over the Years</option>
+      <option value="pie-graph">Distribution of Internet Subscriptions in states</option>
 		</select>
     <br>
 
@@ -128,6 +130,18 @@ plotType.addEventListener("change", function() {
   else if (plotType.value == "state-count") {
     stateInput.style.display = "block";
     yearInput.style.display = "block";
+    cybercrimeInput.style.display = "none";
+    submit.style.display = "block";
+  }
+  else if (plotType.value == "line-graph") {
+    stateInput.style.display = "none";
+    yearInput.style.display = "none";
+    cybercrimeInput.style.display = "none";
+    submit.style.display = "block";
+  }
+  else if (plotType.value == "pie-graph") {
+    stateInput.style.display = "block";
+    yearInput.style.display = "none";
     cybercrimeInput.style.display = "none";
     submit.style.display = "block";
   }
